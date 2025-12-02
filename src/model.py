@@ -58,9 +58,12 @@ class HybridImageModel(nn.Module):
             hybrid_image: Tensor of shape (b, c, m, n)
         """
         self.n_channels = image1.shape[1]
-        kernel = self.get_kernel(cutoff_frequency)
-        low_frequencies = self.low_pass(image1, kernel)
-        high_frequencies = image2 - self.low_pass(image2, kernel)
+        frequency_a, frequency_b = cutoff_frequency[0]
+        kernel_a = self.get_kernel(frequency_a)
+        low_frequencies = self.low_pass(image1, kernel_a)
+
+        kernel_b = self.get_kernel(frequency_b)
+        high_frequencies = image2 - self.low_pass(image2, kernel_b)
 
         hybrid_image = torch.clamp(low_frequencies + high_frequencies, min=0, max=1)
 

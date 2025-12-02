@@ -39,7 +39,7 @@ def make_dataset(path: str) -> Tuple[List[str], List[str]]:
     return images_a, images_b
 
 
-def get_cutoff_frequencies(path: str) -> List[int]:
+def get_cutoff_frequencies(path: str) -> List[Tuple[int]]:
     """
     Gets the cutoff frequencies corresponding to each pair of images.
 
@@ -55,7 +55,7 @@ def get_cutoff_frequencies(path: str) -> List[int]:
     f = open(path)
     lines = f.readlines()
     for line in lines:
-        cutoff_frequencies.append(int(line.strip()))
+        cutoff_frequencies.append((int(line[0]), int(line[2])))
 
     f.close()
     cutoff_frequencies = np.array(cutoff_frequencies)
